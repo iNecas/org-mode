@@ -9791,6 +9791,15 @@ Use TAB to complete link prefixes, then RET for type-specific completion support
     ;; Redisplay so as the new link has proper invisible characters.
     (sit-for 0)))
 
+(defun org-yank-link-at-point ()
+  "Yank target of a link at point"
+  (interactive)
+  (if (org-in-regexp org-bracket-link-regexp 1)
+      (let ((link (match-string-no-properties 1)))
+        (kill-new link)
+        (message "Link '%s' yanked" link))
+    (user-error "No link found")))
+
 (defun org-link-try-special-completion (type)
   "If there is completion support for link type TYPE, offer it."
   (let ((fun (org-link-get-parameter type :complete)))
